@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('social_media', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->string('slug')->unique()->nullable();
-            $table->string('url')->nullable();
-            $table->string('icon')->nullable();
-            $table->string('color')->nullable();
+        Schema::create('team_members', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('position')->nullable();
+            $table->foreignUuid('proposal_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('social_media');
+        Schema::dropIfExists('team_members');
     }
 };

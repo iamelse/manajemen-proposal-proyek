@@ -5,13 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 use Yogameleniawan\SearchSortEloquent\Traits\Searchable;
 use Yogameleniawan\SearchSortEloquent\Traits\Sortable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -19,6 +19,9 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles, Searchable, Sortable;
 
     protected $guarded = ['id'];
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,14 +46,19 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (! $model->getKey()) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'username';
-    }
-
-    public function posts(): HasMany
-    {
-        return $this->hasMany(Post::class);
     }
 
     /**

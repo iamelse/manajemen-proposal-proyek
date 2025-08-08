@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quick_links', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->string('slug')->unique()->nullable();
-            $table->string('url')->nullable();
-            $table->timestamps();
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->uuid('user_id')->nullable()->change();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quick_links');
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable()->change();
+        });
     }
 };

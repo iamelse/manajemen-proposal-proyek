@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->string('slug')->unique()->nullable();
+        Schema::create('attachments', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->foreignUuid('proposal_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_categories');
+        Schema::dropIfExists('attachments');
     }
 };
