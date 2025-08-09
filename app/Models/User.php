@@ -12,11 +12,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Yogameleniawan\SearchSortEloquent\Traits\Searchable;
 use Yogameleniawan\SearchSortEloquent\Traits\Sortable;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, Searchable, Sortable;
+    use LogsActivity, HasFactory, Notifiable, HasRoles, Searchable, Sortable;
 
     protected $guarded = ['id'];
 
@@ -44,6 +46,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'username', 'email'])
+            ->useLogName('user')
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn(string $eventName) => "User has been {$eventName}");
     }
 
     protected static function boot()

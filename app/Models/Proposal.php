@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Yogameleniawan\SearchSortEloquent\Traits\Searchable;
 use Yogameleniawan\SearchSortEloquent\Traits\Sortable;
 
 class Proposal extends Model
 {
-    use SoftDeletes, Searchable, Sortable;
+    use LogsActivity, SoftDeletes, Searchable, Sortable;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -32,6 +34,15 @@ class Proposal extends Model
         'is_approved'  => 'boolean',
         'meta_data'    => 'array',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'description', 'submitted_at', 'is_approved']) // ganti dengan field yang mau dilog
+            ->useLogName('proposal')        // nama log, opsional
+            ->logOnlyDirty()                // cuma log yang berubah
+            ->setDescriptionForEvent(fn(string $eventName) => "Proposal has been {$eventName}");
+    }
 
     protected static function boot()
     {

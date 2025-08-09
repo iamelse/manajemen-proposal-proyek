@@ -7,6 +7,9 @@ enum PermissionEnum: string
     // Dashboard
     case READ_DASHBOARD = 'dashboard_read';
 
+    // Activity Log
+    case READ_LOGS = 'logs_read';
+
     // User Management
     case CREATE_USER = 'users_create';
     case READ_USER = 'users_read';

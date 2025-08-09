@@ -76,6 +76,14 @@
                            'label' => 'Proposal',
                            'permission' => PermissionEnum::READ_PROPOSAL
                         ],
+                        [
+                           'order' => 3,
+                           'active' => 'be.logs',
+                           'route' => 'be.logs.index',
+                           'icon' => 'bx-list-ul',
+                           'label' => 'Logs',
+                           'permission' => PermissionEnum::READ_LOGS,
+                        ]
                     ]
                 ],
                 [

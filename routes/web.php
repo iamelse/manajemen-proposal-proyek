@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\BackEnd\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -21,6 +22,8 @@ Route::prefix('admin')->middleware('is.auth')->group(function () {
     include __DIR__ . '/web/backend/user-profile.php';
 
     include __DIR__ .'/web/backend/proposal.php';
+
+    Route::get('/logs', [ActivityLogController::class, 'index'])->name('be.logs.index');
 });
 
 

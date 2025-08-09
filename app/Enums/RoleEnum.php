@@ -12,6 +12,8 @@ enum RoleEnum: string
     {
         return match ($this) {
             self::ADMINISTRATOR => [
+                PermissionEnum::READ_LOGS,
+
                 PermissionEnum::READ_DASHBOARD,
 
                 PermissionEnum::CREATE_USER,
