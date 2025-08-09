@@ -72,6 +72,14 @@ class User extends Authenticatable
         return 'username';
     }
 
+    protected function formattedUsername(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->username
+                ? $this->username : '[null]'
+        );
+    }
+
     /**
      * Get the user's role.
      */

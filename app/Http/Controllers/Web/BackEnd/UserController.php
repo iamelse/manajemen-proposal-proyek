@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Web\BackEnd;
 
 use App\Enums\PermissionEnum;
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\User\StoreUserRequest;
 use App\Http\Requests\Web\User\UpdateUserRequest;
+use App\Imports\UsersImport;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
@@ -16,7 +18,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -32,6 +36,7 @@ class UserController extends Controller
         $roles = Role::all();
         $allowedFilterFields = ['name', 'username', 'email'];
         $allowedSortFields = ['name', 'username', 'email', 'email_verified_at', 'created_at', 'updated_at'];
+        $fields = ['id', 'name', 'username', 'email', 'created_at', 'updated_at'];
         $limits = [10, 25, 50, 100];
 
         $users = User::with('roles', 'permissions')->search(
@@ -51,6 +56,7 @@ class UserController extends Controller
             'users' => $users,
             'allowedFilterFields' => $allowedFilterFields,
             'allowedSortFields' => $allowedSortFields,
+            'fields' => $fields,
             'limits' => $limits
         ]);
     }
@@ -188,7 +194,7 @@ class UserController extends Controller
      * @param \App\Models\User $user
      * @return RedirectResponse
      */
-    public function massDestroy(Request $request, User $user): RedirectResponse
+    public function massDestroy(Request $request): RedirectResponse
     {
         try {
             Gate::authorize(PermissionEnum::DELETE_USER->value);
@@ -211,5 +217,39 @@ class UserController extends Controller
                 ->route('be.user.index')
                 ->with('error', 'An error occurred while deleting the users.');
         }
+    }
+
+    public function export(Request $request)
+    {
+        $fields = $request->input('fields', ['id', 'name', 'email']);
+
+        (new UsersExport($fields))->queue('users_export.xlsx');
+
+        return back()->with('success', 'Export started! File will be ready shortly.');
+    }
+
+    public function import(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|file|mimes:xlsx,xls,csv',
+            ]);
+        } catch (ValidationException $e) {
+            Log::warning('Import validation failed', [
+                'errors' => $e->errors(),
+                'input' => $request->all(),
+            ]);
+            return back()->withErrors($e->errors())->withInput();
+        }
+
+        $file = $request->file('file');
+
+        $fields = $request->input('fields', ['id', 'name', 'email']);
+
+        $path = $file->store('imports');
+
+        (new UsersImport($fields))->queue($path);
+
+        return back()->with('success', 'Import started! It will be processed shortly.');
     }
 }
