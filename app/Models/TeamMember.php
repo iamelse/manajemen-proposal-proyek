@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,7 @@ class TeamMember extends Model
     protected $fillable = [
         'name',
         'position',
-        'proposal_id'
+        'user_id'
     ];
 
     protected static function boot()
@@ -30,8 +31,9 @@ class TeamMember extends Model
         });
     }
 
-    public function proposal(): BelongsTo
+    public function proposals(): BelongsToMany
     {
-        return $this->belongsTo(Proposal::class);
+        return $this->belongsToMany(Proposal::class, 'proposal_team_member')
+                    ->withTimestamps();
     }
 }

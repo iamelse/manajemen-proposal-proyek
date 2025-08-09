@@ -28,7 +28,7 @@ class ProposalController extends Controller
         $allowedSortFields = ['title', 'submitted_at', 'is_approved', 'created_at', 'updated_at'];
         $limits = [10, 25, 50, 100];
 
-        $proposals = Proposal::with('user')
+        $proposals = Proposal::with('owner')
             ->search(
                 keyword: $request->keyword,
                 columns: $allowedFilterFields
@@ -97,11 +97,17 @@ class ProposalController extends Controller
         Gate::authorize(PermissionEnum::UPDATE_PROPOSAL->value);
 
         $proposal = Proposal::findOrFail($id);
-        $users = User::orderBy('name')->get();
+
+        $usedUserIds = $proposal->teamMembers()->pluck('user_id')->toArray();
+
+        $users = User::orderBy('name')
+            ->where('id', '!=', $proposal->user_id)  // exclude owner
+            ->whereNotIn('id', $usedUserIds)          // exclude users yg sudah jadi team member
+            ->get();
 
         return view('pages.proposal.edit', [
             'title' => 'Edit Proposal',
-            'proposal' => $proposal,
+            'proposal' => $proposal->load('teamMembers'),
             'users' => $users
         ]);
     }
@@ -112,18 +118,12 @@ class ProposalController extends Controller
 
         $proposal = Proposal::findOrFail($id);
 
-        if ($proposal->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
         try {
             DB::transaction(function () use ($request, $proposal) {
                 $proposal->update([
                     'title' => $request->title,
                     'description' => $request->description,
-                    'submitted_at' => $request->submitted_at ?? $proposal->submitted_at,
-                    'meta_data' => json_encode($request->meta_data ?? json_decode($proposal->meta_data, true) ?? []),
-                    // 'is_approved' biasanya tidak diubah user biasa, tapi bisa disesuaikan
+                    'is_approved' => $request->is_approved == 1 ? true : false,
                 ]);
             });
 

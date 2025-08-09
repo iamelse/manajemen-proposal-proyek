@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_members', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->foreignUuid('user_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('position')->nullable();
+        Schema::create('proposal_team_member', function (Blueprint $table) {
+            $table->foreignUuid('proposal_id')->constrained('proposals')->cascadeOnDelete();
+            $table->foreignUuid('team_member_id')->constrained('team_members')->cascadeOnDelete();
             $table->timestamps();
-            $table->softDeletes();
+
+            $table->primary(['proposal_id', 'team_member_id']);
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('team_members');
+        Schema::dropIfExists('proposal_team_member');
     }
 };

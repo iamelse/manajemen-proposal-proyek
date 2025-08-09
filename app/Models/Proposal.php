@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -42,14 +43,15 @@ class Proposal extends Model
         });
     }
 
-    public function user(): BelongsTo
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function teamMembers(): HasMany
+    public function teamMembers(): BelongsToMany
     {
-        return $this->hasMany(TeamMember::class);
+        return $this->belongsToMany(TeamMember::class, 'proposal_team_member')
+                    ->withTimestamps();
     }
 
     public function attachments(): HasMany

@@ -207,7 +207,7 @@
                             </td>
                             <td class="w-20 px-4 py-3">{{ $loop->iteration }}</td>
                             <td class="px-4 py-3 font-medium">{{ $proposal->title }}</td>
-                            <td class="px-4 py-3">{{ $proposal->user->name }}</td>
+                            <td class="px-4 py-3">{{ $proposal->owner->name }}</td>
                             <td class="px-4 py-3">{{ $proposal->submitted_at->format('Y-m-d') }}</td>
                             <td class="px-4 py-3">{{ $proposal->is_approved ? 'Yes' : 'No' }}</td>
                             <td class="px-4 py-3">{{ $proposal->created_at->format('Y-m-d') }}</td>
