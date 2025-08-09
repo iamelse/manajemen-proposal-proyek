@@ -6,6 +6,152 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base container */
+.select2-container--tailwindcss-3 {
+  @apply block;
+}
+
+/* Dropdown */
+.select2-container--tailwindcss-3.select2-container--open .select2-dropdown {
+  @apply w-full py-1 mt-1 overflow-auto text-base bg-white border-none rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-600 dark:focus:border-blue-600;
+}
+
+/* Dropdown position */
+.select2-container--tailwindcss-3.select2-container--open .select2-dropdown--below {
+  @apply origin-top;
+}
+.select2-container--tailwindcss-3.select2-container--open .select2-dropdown--above {
+  @apply origin-bottom;
+}
+
+/* Search box */
+.select2-container--tailwindcss-3 .select2-search--dropdown .select2-search__field {
+  @apply block w-full px-3 py-1.5 text-base sm:text-sm/6 placeholder-gray-400 border-gray-300 border rounded-md shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 dark:bg-gray-700;
+}
+
+/* Results container */
+.select2-container--tailwindcss-3 .select2-results__options {
+  @apply overflow-auto max-h-60;
+}
+
+/* Option items */
+.select2-container--tailwindcss-3 .select2-results__option {
+  @apply relative py-2 pl-3 text-gray-900 transition-colors duration-150 ease-in-out cursor-default select-none pr-9 dark:text-white;
+}
+
+/* Disabled option items */
+.select2-container--tailwindcss-3 .select2-results__option--disabled {
+  @apply text-gray-500 border-gray-200 cursor-not-allowed bg-gray-50 dark:bg-white/10 dark:border-white/5;
+}
+
+/* Hover state */
+.select2-container--tailwindcss-3 .select2-results__option--highlighted {
+  @apply text-white bg-blue-600;
+}
+.select2-container--tailwindcss-3 .select2-results__option--highlighted::after {
+  @apply text-white;
+}
+
+/* Selected state */
+.select2-container--tailwindcss-3 .select2-results__option--selected {
+  @apply font-semibold dark:text-white;
+}
+
+/* Selected with checkmark */
+.select2-container--tailwindcss-3 .select2-results__option--selected::after {
+  @apply absolute inset-y-0 flex items-center text-blue-600 right-3;
+  content: "✓";
+}
+
+/* Group headers */
+.select2-container--tailwindcss-3 .select2-results__group {
+  @apply flex cursor-default bg-gray-50 px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-gray-700 dark:bg-gray-800 dark:text-gray-300;
+}
+.select2-container--tailwindcss-3 .select2-results__option--group {
+  @apply px-0 py-0;
+}
+
+/* Input groups */
+.input-group > * + select + .select2-container--tailwindcss-3 .select2-selection {
+  @apply border-l-0 rounded-l-none;
+}
+.input-group > .select2-container--tailwindcss-3:not(:last-child) .select2-selection {
+  @apply border-r-0 rounded-r-none;
+}
+
+/* Loading state */
+.select2-container--tailwindcss-3 .select2-results__option--loading {
+  @apply flex items-center justify-center py-4 text-gray-400;
+}
+.select2-container--tailwindcss-3 .select2-results__option--loading::after {
+  @apply w-5 h-5 border-2 border-gray-300 rounded-full animate-spin border-t-blue-600;
+  content: '';
+}
+
+/* Error states */
+.field_with_errors .select2-container--tailwindcss-3,
+select.is-invalid ~ .select2-container--tailwindcss-3,
+select:invalid ~ .select2-container--tailwindcss-3 {
+  .select2-selection {
+    @apply text-red-900 border-red-500;
+  }
+  .select2-container--focus {
+    @apply border-red-500 ring-red-500;
+  }
+  .select2-selection__placeholder {
+    @apply text-red-300;
+  }
+}
+
+/* Multiple selection */
+.select2-container--tailwindcss-3 .select2-selection--multiple {
+  @apply min-h-[2.25rem] h-auto rounded-md text-base sm:text-sm/6 bg-white py-1.5 px-3 border border-gray-300 cursor-default dark:bg-white/5 dark:text-white dark:border-white/10;
+}
+
+/* Multiple selection list */
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-selection__rendered {
+  @apply flex flex-row flex-wrap gap-2 p-0 m-0 list-none;
+}
+
+/* Multiple selection choices (badge) */
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-selection__choice {
+  @apply inline-flex items-center rounded-md bg-blue-500 px-2.5 me-1.5 py-0.5 text-base sm:text-sm/6 font-medium text-white;
+}
+
+/* Remove button in badge */
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-selection__choice__remove {
+  @apply -ml-1 mr-1.5 h-4 w-4 pb-[0.10rem] flex items-center justify-center rounded-full text-white hover:bg-blue-600 hover:text-white;
+}
+
+/* Search field inside multiple selection */
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-search--inline {
+  @apply block;
+}
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-search--inline .select2-search__field {
+  @apply h-[1.5rem] p-0 m-0 text-base sm:text-sm/6 bg-transparent border-0 focus:outline-none focus:ring-0 dark:placeholder:text-gray-500 placeholder:text-gray-400;
+}
+
+/* Disabled state */
+.select2-container--tailwindcss-3.select2-container--disabled .select2-selection--multiple {
+  @apply text-gray-500 border-gray-200 cursor-not-allowed bg-gray-50 dark:bg-white/20 dark:border-white/5;
+}
+.select2-container--tailwindcss-3.select2-container--disabled.select2-container--focus .select2-selection--multiple {
+  @apply border-gray-200 ring-0 dark:border-white/5;
+}
+
+/* Clearable state */
+.select2-container--tailwindcss-3 .select2-selection--multiple.select2-selection--clearable {
+  @apply pr-4;
+}
+.select2-container--tailwindcss-3 .select2-selection--multiple .select2-selection__clear {
+  @apply absolute inset-y-0 right-0 flex items-center pr-4 text-base font-bold text-gray-400 cursor-pointer sm:text-sm/6 hover:text-gray-700;
+}
+
+/* Focus styles for keyboard navigation */
+.select2-container--tailwindcss-3.select2-container--focus .select2-selection--multiple {
+  @apply border-blue-600 outline-none ring-1 ring-blue-600;
+}
+
 /* Base styling for ordered and unordered lists */
 .costume-ol,
 .costume-ul {
@@ -14,11 +160,11 @@
 
 /* First level list (no additional margin) */
 .costume-ol {
-    @apply list-decimal space-y-2 text-base text-gray-800 dark:text-gray-200;
+    @apply space-y-2 text-base text-gray-800 list-decimal dark:text-gray-200;
 }
 
 .costume-ul {
-    @apply list-disc space-y-2 text-base text-gray-800 dark:text-gray-200;
+    @apply space-y-2 text-base text-gray-800 list-disc dark:text-gray-200;
 }
 
 /* Second level (nested lists) */
@@ -45,7 +191,7 @@
 
 @layer base {
   body {
-    @apply relative z-1 bg-gray-50 font-outfit text-base font-normal;
+    @apply relative text-base font-normal z-1 bg-gray-50 font-outfit;
   }
 }
 
@@ -54,7 +200,7 @@
     @apply text-[1.25rem] font-bold;
   }
   .menu-item {
-    @apply relative flex items-center gap-3 rounded-lg px-3 py-2 text-theme-sm font-medium;
+    @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
   }
   .menu-item-active {
     @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
@@ -121,7 +267,7 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-gray-200 dark:bg-gray-700;
+    @apply bg-gray-200 rounded-full dark:bg-gray-700;
   }
   /* For Remove Date Icon */
   input[type="date"]::-webkit-inner-spin-button,
@@ -276,7 +422,7 @@
 }
 
 .flatpickr-weekdays {
-  @apply mb-4 mt-6 h-auto;
+  @apply h-auto mt-6 mb-4;
 }
 
 .flatpickr-weekday {
@@ -375,7 +521,7 @@ span.flatpickr-weekday,
 }
 
 .fc .fc-view-harness {
-  @apply custom-scrollbar max-w-full overflow-x-auto;
+  @apply max-w-full overflow-x-auto custom-scrollbar;
 }
 .fc-dayGridMonth-view.fc-view.fc-daygrid {
   @apply min-w-[718px];
@@ -398,11 +544,11 @@ span.flatpickr-weekday,
 }
 
 .fc-button-group .fc-button.fc-prev-button:before {
-  @apply mt-1 inline-block;
+  @apply inline-block mt-1;
   content: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.0068 6L9.75684 12.25L16.0068 18.5' stroke='%23344054' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
 }
 .fc-button-group .fc-button.fc-next-button:before {
-  @apply mt-1 inline-block;
+  @apply inline-block mt-1;
   content: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.50684 19L15.7568 12.75L9.50684 6.5' stroke='%23344054' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
 }
 .dark .fc-button-group .fc-button.fc-prev-button:before {
@@ -429,7 +575,7 @@ span.flatpickr-weekday,
 .fc-header-toolbar.fc-toolbar
   .fc-toolbar-chunk:last-child
   .fc-button.fc-button-active {
-  @apply bg-white text-gray-900 dark:bg-gray-800 dark:text-white;
+  @apply text-gray-900 bg-white dark:bg-gray-800 dark:text-white;
 }
 .fc-theme-standard th {
   @apply !border-x-0 border-t !border-gray-200 bg-gray-50 !text-left dark:!border-gray-800 dark:bg-gray-900;
@@ -469,7 +615,7 @@ span.flatpickr-weekday,
   @apply p-0 text-sm font-normal text-gray-700;
 }
 .fc-daygrid-event-dot {
-  @apply ml-0 mr-3 h-5 w-1 rounded border-none;
+  @apply w-1 h-5 ml-0 mr-3 border-none rounded;
 }
 .fc-event {
   @apply focus:shadow-none;

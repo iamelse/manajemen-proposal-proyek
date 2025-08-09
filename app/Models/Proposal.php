@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Yogameleniawan\SearchSortEloquent\Traits\Searchable;
+use Yogameleniawan\SearchSortEloquent\Traits\Sortable;
 
 class Proposal extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable, Sortable;
 
     public $incrementing = false;
     protected $keyType = 'string';

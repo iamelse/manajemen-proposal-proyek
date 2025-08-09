@@ -10,14 +10,14 @@
    <div class="p-4 mx-auto max-w-screen-2xl md:p-6">
 
       <!-- Header Section -->
-      <div class="flex px-6 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex flex-col gap-4 px-6 sm:flex-row sm:items-center sm:justify-between">
          <div>
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Manage Role Permissions</h1>
             <p class="text-gray-600 dark:text-gray-400">View and assign permissions for the "{{ $role->name }}" role.</p>
          </div>
       </div>
 
-      <div class="border-gray-100 p-5 dark:border-gray-800 sm:p-6">
+      <div class="p-5 border-gray-100 dark:border-gray-800 sm:p-6">
          <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
             <form class="mt-5" action="{{ route('be.role.and.permission.update.permissions', $role->slug) }}" method="POST">
                @csrf
@@ -50,8 +50,8 @@
                   <div class="flex items-center gap-3 mb-4">
                       <input type="checkbox"
                           x-model="allSelected"
-                          class="form-checkbox rounded-md border-gray-400 h-5 w-5 text-blue-600 focus:ring focus:ring-blue-300 dark:border-gray-600 dark:focus:ring-blue-500">
-                      <span class="text-md font-semibold text-gray-900 dark:text-gray-200">Select All</span>
+                          class="w-5 h-5 text-blue-600 border-gray-400 rounded-md form-checkbox focus:ring focus:ring-blue-300 dark:border-gray-600 dark:focus:ring-blue-500">
+                      <span class="font-semibold text-gray-900 text-md dark:text-gray-200">Select All</span>
                   </div>
                   @endcan
 
@@ -78,24 +78,24 @@
                                                     selectedPermissions.push(id);
                                                 }
                                             })"
-                                    class="form-checkbox rounded-md border-gray-400 h-5 w-5 text-blue-600 focus:ring focus:ring-blue-300 dark:focus:ring-blue-500">
+                                    class="w-5 h-5 text-blue-600 border-gray-400 rounded-md form-checkbox focus:ring focus:ring-blue-300 dark:focus:ring-blue-500">
                             @endcan
-                            <span class="text-md font-semibold text-gray-900 dark:text-gray-200">
+                            <span class="font-semibold text-gray-900 text-md dark:text-gray-200">
                                 {{ $groupAliases[$group] ?? ucfirst($group) }}
                             </span>
                         </div>
 
                         <!-- Permissions List -->
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 ml-7">
+                        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 ml-7">
                             @foreach($permissions as $permission)
                                 <label class="flex items-center space-x-3 cursor-pointer">
                                     @can(PermissionEnum::UPDATE_ROLE_PERMISSION->value, $role)
                                     <input type="checkbox" name="permissions[]" value="{{ $permission->id }}"
                                         x-model="selectedPermissions"
-                                        class="form-checkbox rounded-md border-gray-400 h-5 w-5 text-blue-600 focus:ring focus:ring-blue-300 dark:border-gray-600 dark:focus:ring-blue-500"
+                                        class="w-5 h-5 text-blue-600 border-gray-400 rounded-md form-checkbox focus:ring focus:ring-blue-300 dark:border-gray-600 dark:focus:ring-blue-500"
                                         {{ $role->permissions->contains($permission->id) ? 'checked' : '' }}>
                                     @endcan
-                                    <span class="text-gray-800 dark:text-gray-300 text-sm">{{ $permission->name }}</span>
+                                    <span class="text-sm text-gray-800 dark:text-gray-300">{{ $permission->name }}</span>
                                 </label>
                             @endforeach
                         </div>

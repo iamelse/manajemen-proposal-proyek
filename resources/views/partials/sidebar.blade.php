@@ -68,6 +68,14 @@
                             'label' => 'Dashboard',
                             'permission' => PermissionEnum::READ_DASHBOARD
                         ],
+                        [
+                           'order' => 2,
+                           'active' => 'be.proposals',
+                           'route' => 'be.proposals.index',
+                           'icon' => 'bx-file',
+                           'label' => 'Proposal',
+                           'permission' => PermissionEnum::READ_PROPOSAL
+                        ],
                     ]
                 ],
                 [

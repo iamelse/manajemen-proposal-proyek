@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
 
         // Jalankan Permission Seeder
         $this->call(PermissionSeeder::class);
+        $this->call(ProposalSeeder::class);
 
         // Assign role
         $admin->assignRole(RoleEnum::ADMINISTRATOR->value);
