@@ -126,20 +126,26 @@
             <div x-show="tab === 'attachments'">
                 <div class="p-4 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                     <h2 class="mb-3 font-semibold">Attachments</h2>
-                    <form action="" method="POST" enctype="multipart/form-data" class="flex gap-2">
+
+                    <!-- Form Upload -->
+                    <form action="{{ route('be.proposals.attachments.store', $proposal) }}" method="POST" enctype="multipart/form-data" class="flex gap-2">
                         @csrf
-                        <input type="hidden" name="proposal_id" value="{{ $proposal->id }}">
-                        <input type="file" name="file" accept="application/pdf" required>
-                        <button type="submit" class="px-3 py-1 text-white bg-blue-600 rounded-lg">Upload</button>
+                        <input type="file" name="attachments[]" accept="application/pdf" required multiple>
+                        <button type="submit" class="px-3 py-1 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">Upload</button>
                     </form>
 
+                    <!-- Daftar Attachments -->
                     <ul class="mt-4 space-y-2">
                         @foreach($proposal->attachments as $attachment)
                             <li class="flex items-center justify-between pb-1 border-b border-gray-100 dark:border-gray-700">
-                                <a href="{{ asset('storage/'.$attachment->path) }}" target="_blank">{{ $attachment->filename }}</a>
-                                <form action="" method="POST" onsubmit="return confirm('Delete attachment?')">
-                                    @csrf @method('DELETE')
-                                    <button class="text-red-500">Delete</button>
+                                <a href="{{ asset('storage/' . $attachment->file_path) }}" target="_blank" class="text-blue-600 hover:underline">
+                                    {{ $attachment->file_name }}
+                                </a>
+
+                                <form action="{{ route('be.proposals.attachments.destroy', $attachment) }}" method="POST" onsubmit="return confirm('Delete attachment?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-red-500 hover:underline">Delete</button>
                                 </form>
                             </li>
                         @endforeach

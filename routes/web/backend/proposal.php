@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\BackEnd\AttachmentController;
 use App\Http\Controllers\Web\BackEnd\ProposalController;
 use App\Http\Controllers\Web\BackEnd\TeamMemberController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,10 @@ Route::prefix('proposals')->group(function () {
         ->name('be.proposals.team-members.store');
     Route::delete('/team-members/{teamMember}', [TeamMemberController::class, 'destroy'])
         ->name('be.proposals.team-members.destroy');
+
+    Route::post('/{proposal}/attachments', [AttachmentController::class, 'store'])
+        ->name('be.proposals.attachments.store');
+
+    Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])
+        ->name('be.proposals.attachments.destroy');
 });
